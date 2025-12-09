@@ -1,13 +1,19 @@
-package com.pluralsight.demo;
+package com.pluralsight.demo.models;
 
 public class Product {
 
     private int productID;
     private String productName;
+    private int categoryId;
+    private double unitPrice;
 
-    public Product(int productID, String productName) {
+    public Product() {}
+
+    public Product(int productID, String productName, int categoryId, double unitPrice) {
         this.productID = productID;
         this.productName = productName;
+        this.categoryId = categoryId;
+        this.unitPrice = unitPrice;
     }
 
     public int getProductID() {

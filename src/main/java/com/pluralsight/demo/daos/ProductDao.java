@@ -1,9 +1,6 @@
-package com.pluralsight.demo;
+package com.pluralsight.demo.daos;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
-
-import javax.sql.DataSource;
-
+import com.pluralsight.demo.models.Product;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +29,34 @@ public class ProductDao {
         this.dataSource = source;
     }
 
+    public Product getProductById(int id) {
+        String sql = """
+                select *
+                from Products
+                where ProductID = ?;
+                """;
+
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            String name = resultSet.getString("ProductName");
+            int category = resultSet.getInt("CategoryID");
+            double price = resultSet.getDouble("UnitPrice");
+
+            Product product = new Product(id, name, category, price);
+            return product;
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<Product> getProducts() {
 
         String sql = "select * from products;";
@@ -47,7 +72,9 @@ public class ProductDao {
             while (resultSet.next()) {
                 int id = resultSet.getInt("ProductID");
                 String name = resultSet.getString("ProductName");
-                Product product = new Product(id, name);
+                int category = resultSet.getInt("CategoryID");
+                double price = resultSet.getDouble("UnitPrice");
+                Product product = new Product(id, name, category, price);
                 products.add(product);
             }
             return products;

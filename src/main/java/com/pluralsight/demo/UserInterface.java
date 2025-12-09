@@ -1,5 +1,7 @@
 package com.pluralsight.demo;
 
+import com.pluralsight.demo.daos.ProductDao;
+import com.pluralsight.demo.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
