@@ -29,6 +29,11 @@ public class CategoryDao {
         this.dataSource = source;
     }
 
+    public Category insert(Category category) {
+
+        return null;
+    }
+
     public ArrayList<Category> getCategories() {
 
         String sql = "select * from categories;";
