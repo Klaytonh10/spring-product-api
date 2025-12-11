@@ -81,7 +81,7 @@ public class ProductDao {
 
             String name = resultSet.getString("ProductName");
             int category = resultSet.getInt("CategoryID");
-            double price = resultSet.getDouble("UnitPrice");
+            float price = resultSet.getFloat("UnitPrice");
 
             Product product = new Product(id, name, category, price);
             return product;
@@ -108,7 +108,7 @@ public class ProductDao {
                 int id = resultSet.getInt("ProductID");
                 String name = resultSet.getString("ProductName");
                 int category = resultSet.getInt("CategoryID");
-                double price = resultSet.getDouble("UnitPrice");
+                float price = resultSet.getFloat("UnitPrice");
                 Product product = new Product(id, name, category, price);
                 products.add(product);
             }
@@ -116,6 +116,31 @@ public class ProductDao {
         } catch (SQLException e) {
             System.err.println("Houston, we have a database problem: " + e);
             return null;
+        }
+    }
+
+    public void updateProductById(int pid,Product p) {
+        String sql = """
+                update Products
+                set ProductName = ?, CategoryID = ?, UnitPrice = ?
+                where ProductID = ?;
+                """;
+        try(
+                Connection connection = dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            preparedStatement.setString(1, p.getProductName());
+            preparedStatement.setInt(2, p.getCategoryId());
+            preparedStatement.setFloat(3, p.getUnitPrice());
+            preparedStatement.setInt(4, p.getProductID());
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            System.out.println("Row's updated: " + rowsUpdated);
+            if(rowsUpdated!=1) {
+                System.err.println("Too many rows updated");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -5,11 +5,11 @@ public class Product {
     private int productID;
     private String productName;
     private int categoryId;
-    private double unitPrice;
+    private float unitPrice;
 
     public Product() {}
 
-    public Product(int productID, String productName, int categoryId, double unitPrice) {
+    public Product(int productID, String productName, int categoryId, float unitPrice) {
         this.productID = productID;
         this.productName = productName;
         this.categoryId = categoryId;
@@ -40,11 +40,11 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
+    public float getUnitPrice() {
+        return this.unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
     }
 }
