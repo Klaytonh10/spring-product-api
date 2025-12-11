@@ -1,14 +1,11 @@
 package com.pluralsight.demo.controllers;
 
 import com.pluralsight.demo.daos.CategoryDao;
-import com.pluralsight.demo.daos.ProductDao;
 import com.pluralsight.demo.models.Category;
 import com.pluralsight.demo.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -24,12 +21,18 @@ public class CategoryController {
 
     @RequestMapping(value="/categories", method= RequestMethod.GET)
     public ArrayList<Category> getAllCategories() {
-        return dao.getCategories();
+        return this.dao.getAllCategories();
     }
 
     @RequestMapping(value="/categories/{id}", method=RequestMethod.GET)
     public Category getCategoryId(@PathVariable int id) {
-        return dao.getCategoryById(id);
+        return this.dao.getCategoryById(id);
+    }
+
+    @RequestMapping(path="/categories", method=RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Category createNewCategory(@RequestBody Category category) {
+        return this.dao.createNewCategory(category);
     }
 
 }

@@ -44,5 +44,10 @@ public class ProductController {
         this.dao.updateProductById(id, product);
     }
 
+    @RequestMapping(path="/products/{id}", method=RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteProductByIf(@PathVariable int id) {
+        this.dao.deleteProductById(id);
+    }
 
 }

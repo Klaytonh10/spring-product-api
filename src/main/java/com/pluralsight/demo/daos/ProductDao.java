@@ -132,8 +132,7 @@ public class ProductDao {
             preparedStatement.setString(1, p.getProductName());
             preparedStatement.setInt(2, p.getCategoryId());
             preparedStatement.setFloat(3, p.getUnitPrice());
-            preparedStatement.setInt(4, pid);
-
+            preparedStatement.setInt(4, p.getProductID());
             int rowsUpdated = preparedStatement.executeUpdate();
             System.out.println("Row's updated: " + rowsUpdated);
             if(rowsUpdated!=1) {
@@ -145,4 +144,22 @@ public class ProductDao {
         }
     }
 
+    public void deleteProductById(int pid) {
+        String sql = """
+                delete from products
+                where ProductID = ?;
+                """;
+        try(
+                Connection connection = dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            preparedStatement.setInt(1, pid);
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if(rowsDeleted!=1) {
+                throw new RuntimeException("The rows deleted wasn't 1 as expected");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
