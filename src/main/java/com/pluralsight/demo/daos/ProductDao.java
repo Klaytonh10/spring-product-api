@@ -121,7 +121,7 @@ public class ProductDao {
 
     public void updateProductById(int pid,Product p) {
         String sql = """
-                update Products
+                update products
                 set ProductName = ?, CategoryID = ?, UnitPrice = ?
                 where ProductID = ?;
                 """;
@@ -132,12 +132,13 @@ public class ProductDao {
             preparedStatement.setString(1, p.getProductName());
             preparedStatement.setInt(2, p.getCategoryId());
             preparedStatement.setFloat(3, p.getUnitPrice());
-            preparedStatement.setInt(4, p.getProductID());
+            preparedStatement.setInt(4, pid);
 
             int rowsUpdated = preparedStatement.executeUpdate();
             System.out.println("Row's updated: " + rowsUpdated);
             if(rowsUpdated!=1) {
                 System.err.println("Too many rows updated");
+                throw new RuntimeException("Too many rows updated");
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import com.pluralsight.demo.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 
@@ -28,10 +29,20 @@ public class ProductController {
         return this.dao.getProductById(id);
     }
 
-    @RequestMapping(path="/products/add", method=RequestMethod.POST)
+    @RequestMapping(path="/products", method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Product createNewProduct(@RequestBody Product product) {
         return this.dao.createNewProduct(product);
     }
+
+    @RequestMapping(path="/products/{id}", method=RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void updateProductById(@PathVariable int id,@RequestBody Product product) {
+        if(id!= product.getProductID()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        this.dao.updateProductById(id, product);
+    }
+
 
 }
