@@ -19,12 +19,12 @@ public class CategoryController {
         this.dao = dao;
     }
 
-    @RequestMapping(value="/categories", method= RequestMethod.GET)
+    @RequestMapping(value="/categories", method=RequestMethod.GET)
     public ArrayList<Category> getAllCategories() {
         return this.dao.getAllCategories();
     }
 
-    @RequestMapping(value="/categories/{id}", method=RequestMethod.GET)
+    @RequestMapping(path="/categories/{id}", method=RequestMethod.GET)
     public Category getCategoryId(@PathVariable int id) {
         return this.dao.getCategoryById(id);
     }
